@@ -30,7 +30,7 @@ jobs:
           echo "Registry: $ACR_NAME.azurecr.io"
           echo "App: $APP_NAME"
           echo "Tag: $IMAGE_TAG"
-cd $DOCKER_CONTEXT_DIR
+          cd $DOCKER_CONTEXT_DIR
           docker build -t $ACR_NAME.azurecr.io/$APP_NAME:$IMAGE_TAG .
       # ✅ Login to Azure Container Registry (ACR)
       - name: ACR Login
