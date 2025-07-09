@@ -18,9 +18,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: |
-          echo "Checking if self-hosted runners are reachable..."
-          gh api orgs/${{ github.repository_owner }}/actions/runners --paginate --jq '.runners[] | {name, status, busy, labels}'
+      - name: Authenticate GitHub CLI and List Runners
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "🔑 Authenticating gh CLI..."
+          gh auth status
+          
+          echo "📄 Listing org-level runners..."
+          gh api orgs/${{ github.repository_owner }}/actions/runners \
+            --paginate \
+            --jq '.runners[] | {name, status, busy, labels}'
+
       # ✅ Checkout repository
       - name: Checkout Code
         uses: actions/checkout@v4
