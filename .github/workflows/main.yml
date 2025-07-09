@@ -16,9 +16,10 @@ jobs:
   build-and-push:
     name: Build and Push Docker Image
     runs-on: 
-      - self-hosted          # Required for all self-hosted runners
-      - BankRunners          # 👈 Add your org runner group name
-      - Linux                # 👈 Add the OS label (if applicable)
+      - self-hosted
+      - Linux
+      - X64
+
 
     steps:
       # ✅ Checkout repository
