@@ -17,8 +17,6 @@ jobs:
     name: Build and Push Docker Image
     runs-on: 
       - self-hosted
-      - Linux
-      - X64
 
 
     steps:
