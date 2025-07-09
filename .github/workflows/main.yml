@@ -15,11 +15,12 @@ env:
 jobs:
   build-and-push:
     name: Build and Push Docker Image
-    runs-on: 
-      - self-hosted
-
+    runs-on: ubuntu-latest
 
     steps:
+      - run: |
+          echo "Checking if self-hosted runners are reachable..."
+          gh api orgs/${{ github.repository_owner }}/actions/runners --paginate --jq '.runners[] | {name, status, busy, labels}'
       # ✅ Checkout repository
       - name: Checkout Code
         uses: actions/checkout@v4
