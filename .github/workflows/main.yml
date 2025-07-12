@@ -50,5 +50,5 @@ jobs:
       - name: Deploy Docker Image
         run: |
           #cd Mega-Project-CD-main/Manifest/
-          kubectl apply -f /Mega-Project-CD-main/Manifest/manifest.yaml
+          kubectl apply -f Mega-Project-CD-main/Manifest/manifest.yaml
       
