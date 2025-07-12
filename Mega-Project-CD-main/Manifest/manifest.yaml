@@ -7,7 +7,7 @@ metadata:
   namespace: webapps
 type: Opaque
 data:
-  MYSQL_ROOT_PASSWORD: VGVzdEAxMjM= # Base64-encoded password
+  MYSQL_ROOT_PASSWORD: aGVtdUAxMjM= # Base64-encoded password
 ---
 # ConfigMap for MySQL
 apiVersion: v1
@@ -17,32 +17,6 @@ metadata:
   namespace: webapps
 data:
   MYSQL_DATABASE: "bankappdb"
----
-# Storage Class for EBS
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: ebs-sc
-provisioner: ebs.csi.aws.com
-parameters:
-  type: gp3
-  fsType: ext4
-reclaimPolicy: Retain
-volumeBindingMode: WaitForFirstConsumer
----
-# Persistent Volume Claim for MySQL
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pvc
-  namespace: webapps
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: ebs-sc
-  resources:
-    requests:
-      storage: 5Gi
 ---
 # MySQL Deployment
 apiVersion: apps/v1
@@ -85,9 +59,6 @@ spec:
         ports:
         - containerPort: 3306
           name: mysql
-        volumeMounts:
-        - mountPath: /var/lib/mysql
-          name: mysql-data
         livenessProbe:
           tcpSocket:
             port: 3306
@@ -98,10 +69,6 @@ spec:
             command: ["mysqladmin", "ping", "-h", "127.0.0.1"]
           initialDelaySeconds: 30
           periodSeconds: 10
-      volumes:
-      - name: mysql-data
-        persistentVolumeClaim:
-          claimName: mysql-pvc
 ---
 # MySQL Service
 apiVersion: v1
@@ -134,7 +101,7 @@ spec:
     spec:
       containers:
       - name: bankapp
-        image: adijaiswal/bankapp:v20
+        image: javak8s.azurecr.io/kubebankapp:latest
         resources:
           requests:
             memory: "256Mi"
@@ -178,7 +145,7 @@ metadata:
   name: bankapp-service
   namespace: webapps
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - port: 80
     targetPort: 8080
