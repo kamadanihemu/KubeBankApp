@@ -1,9 +1,7 @@
 name: Build and Push Docker Image to ACR (Kubeclient Runner)
 
-on:
-  push:
-    branches:
-      - main  # Trigger workflow on pushes to main branch
+on: 
+  workflow_dispatch:
 
 env:
   # 🌟 Using GitHub organization variable
