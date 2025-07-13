@@ -21,6 +21,9 @@ jobs:
       # ✅ Checkout repository
       - name: Checkout Code
         uses: actions/checkout@v4
+      - name: Update Manifest File
+        run: |
+            sed -i 's/:latest/:$IMAGE_TAG/g' Mega-Project-CD-main/Manifest/manifest-dev.yaml
 
       # ✅ Build Docker image
       - name: Build Docker Image
