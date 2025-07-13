@@ -1,4 +1,4 @@
-name: Build and Push Docker Image to ACR (Kubeclient Runner)
+name: 🧪 Deploy to Prod
 
 on:
   workflow_dispatch:
