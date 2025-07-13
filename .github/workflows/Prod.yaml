@@ -49,4 +49,6 @@ jobs:
         run: |
           #cd Mega-Project-CD-main/Manifest/
           kubectl apply -f Mega-Project-CD-main/Manifest/manifest.yaml
+          image=$(kubectl get pods -n webapps -o wide | grep -i bankapp | awk '{print $1}')
+          kubectl delete pod $image -n webapps
       
