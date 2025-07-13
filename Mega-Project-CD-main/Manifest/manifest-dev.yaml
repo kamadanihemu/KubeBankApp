@@ -101,7 +101,7 @@ spec:
     spec:
       containers:
       - name: bankapp
-        image: bankappjava.azurecr.io/bankapp:latest
+        image: javak8s.azurecr.io/kubebankapp:latest
         resources:
           requests:
             memory: "256Mi"
