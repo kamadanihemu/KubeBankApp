@@ -9,8 +9,8 @@ env:
   # 🌟 Using GitHub organization variable
   ACR_NAME: ${{ vars.ACR_NAME }}
   APP_NAME: ${{ vars.REPO_NAME }}
-  #IMAGE_TAG: v1.${{ github.run_number }}
-  IMAGE_TAG: latest
+  IMAGE_TAG: v1.${{ github.run_number }}
+  #IMAGE_TAG: latest
   DOCKER_CONTEXT_DIR: Mega-Project-CI-main
 
 jobs:
