@@ -1,0 +1,54 @@
+name: Build and Push Docker Image to ACR (Kubeclient Runner)
+
+on:
+  push:
+    branches:
+      - main  # Trigger workflow on pushes to main branch
+
+env:
+  # 🌟 Using GitHub organization variable
+  ACR_NAME: ${{ vars.ACR_NAME }}
+  APP_NAME: ${{ vars.REPO_NAME }}
+  IMAGE_TAG: v1.${{ github.run_number }}
+  #IMAGE_TAG: latest
+  DOCKER_CONTEXT_DIR: Mega-Project-CI-main
+
+jobs:
+  build-and-push:
+    name: Build and Push Docker Image
+    runs-on: self-hosted
+
+    steps:
+
+      # ✅ Checkout repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # ✅ Build Docker image
+      - name: Build Docker Image
+        run: |
+          echo "Building Docker image..."
+          echo "Registry: $ACR_NAME.azurecr.io"
+          echo "App: $APP_NAME"
+          echo "Tag: $IMAGE_TAG"
+          cd $DOCKER_CONTEXT_DIR
+          #docker build -t $APP_NAME:$IMAGE_TAG .
+          docker build --tag $ACR_NAME.azurecr.io/$APP_NAME:$IMAGE_TAG .
+      # ✅ Login to Azure Container Registry (ACR)
+      - name: ACR Login
+        uses: azure/docker-login@v2
+        with:
+          login-server: ${{ env.ACR_NAME }}.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      # ✅ Push Docker image to ACR
+      - name: Push Docker Image
+        run: |
+          echo "Pushing Docker image to ACR..."
+          docker push $ACR_NAME.azurecr.io/$APP_NAME:$IMAGE_TAG
+      - name: Deploy Docker Image
+        run: |
+          #cd Mega-Project-CD-main/Manifest/
+          kubectl apply -f Mega-Project-CD-main/Manifest/manifest.yaml
+      
