@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Update Manifest File
         run: |
-            sed -i 's/:latest/:$IMAGE_TAG/g' Mega-Project-CD-main/Manifest/manifest-dev.yaml
+            sed -i 's/:latest/:$IMAGE_TAG/g' Mega-Project-CD-main/Manifest/manifest.yaml
 
       # ✅ Build Docker image
       - name: Build Docker Image
