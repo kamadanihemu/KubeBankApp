@@ -44,10 +44,10 @@ jobs:
         run: |
           echo "Pushing Docker image to ACR..."
           docker push $ACR_NAME.azurecr.io/$APP_NAME:$IMAGE_TAG
-      - name: Deploy Docker Image
-        run: |
-          #cd Mega-Project-CD-main/Manifest/
-          kubectl apply -f Mega-Project-CD-main/Manifest/manifest-dev.yaml
-          image=$(kubectl get pods -n devwebapps -o wide | grep -i bankapp | awk '{print $1}')
-          kubectl delete pod $image -n devwebapps
+      #- name: Deploy Docker Image
+        # run: |
+        #   #cd Mega-Project-CD-main/Manifest/
+        #   kubectl apply -f Mega-Project-CD-main/Manifest/manifest-dev.yaml
+        #   image=$(kubectl get pods -n devwebapps -o wide | grep -i bankapp | awk '{print $1}')
+        #   kubectl delete pod $image -n devwebapps
       
